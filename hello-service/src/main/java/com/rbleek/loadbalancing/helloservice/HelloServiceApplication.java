@@ -1,5 +1,6 @@
 package com.rbleek.loadbalancing.helloservice;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +13,7 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 import static org.springframework.web.reactive.function.server.ServerResponse.*;
 
 @SpringBootApplication
+@Slf4j
 public class HelloServiceApplication {
 
 	public static void main(String[] args) {
@@ -26,6 +28,7 @@ public class HelloServiceApplication {
 	}
 
 	private Mono<String> sayHello() {
+		log.info("sayHello called");
 	    return Mono.just("Hello!");
 	}
 }
