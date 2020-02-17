@@ -5,6 +5,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+import reactor.retry.Retry;
+
+import java.time.Duration;
 
 @RestController
 public class helloController {
@@ -21,6 +24,7 @@ public class helloController {
     public Mono<String> hello() {
         return webClientBuilder.build().get().uri("http://hello-service/hello")
                 .retrieve()
-                .bodyToMono(String.class);
+                .bodyToMono(String.class)
+                .retryWhen(Retry.any().timeout(Duration.ofSeconds(30L)));
     }
 }
