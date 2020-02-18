@@ -22,7 +22,8 @@ public class helloController {
 
     @RequestMapping("/hello")
     public Mono<String> hello() {
-        return webClientBuilder.build().get().uri("http://hello-service/hello")
+        return webClientBuilder.filter(loadBalancerFunction)
+                .build().get().uri("http://hello-service/hello")
                 .retrieve()
                 .bodyToMono(String.class)
                 .retryWhen(Retry.any().timeout(Duration.ofSeconds(30L)));
